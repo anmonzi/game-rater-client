@@ -18,7 +18,7 @@ export const GameList = (props) => {
             <div className="game_list_container">
                 <header className="game_header">
                     <h1>Current Games at Game Rater</h1>
-                    <button className="btn" onClick={() => {
+                    <button className="btn btn-2 btn-sep icon-create" onClick={() => {
                         history.push("/games/new")
                     }}>Add New Game</button>
                 </header>

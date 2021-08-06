@@ -11,10 +11,11 @@ export const GameDetail = () => {
     const {gameId} = useParams()
 
     useEffect(() => {
-        getGameById(gameId).then(setGame)
+        getGameById(gameId).then(game => setGame(game))
     }, [gameId])
 
 
+    
     return (
         <>
             <h2>{game.title}'s Overview</h2>
@@ -24,10 +25,17 @@ export const GameDetail = () => {
             <br></br>
             <div>Year realeased: {game.year_released}</div>
             <div>Number of players: {game.number_of_players}</div>
-            <div>Estimated time of play: {game.game_time}</div>
-            <div>Age Recommendation: {game.age_rec}</div>
+            <div>Estimated time of play: {game.game_time} minutes</div>
+            <div>Age Recommendation: {game.age_rec} years or older</div>
             <br></br>
-            <div>Categories: </div>
+            <div>Categories: {
+                    game.categories?.map(c => 
+                        <div>{ c.label }</div>
+                    )}
+            </div>
+            <button className="btn" onClick={() => history.push(`/games/${gameId}/review`)}>Review Game</button>
+            <br></br>
+            <h4>Current reviews of this game</h4>
             <button className="btn" onClick={() => history.push("/games")}>Go Back</button>
         </>
     )
