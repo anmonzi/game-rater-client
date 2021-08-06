@@ -6,7 +6,7 @@ export const ReviewProvider = (props) => {
   const [reviews, setReviews] = useState([]);
 
   const getReviews = () => {
-    return fetch("http://localhost:8000/categories", {
+    return fetch("http://localhost:8000/reviews", {
       headers: {
         Authorization: `Token ${localStorage.getItem("lu_token")}`,
       },
@@ -14,6 +14,16 @@ export const ReviewProvider = (props) => {
       .then((res) => res.json())
       .then(setReviews);
   };
+
+
+  const getReviewsByGameId = gameId => {
+    return fetch(`http://localhost:8000/reviews?game=${gameId}`, {
+      headers: {
+        Authorization: `Token ${localStorage.getItem("lu_token")}`,
+      },
+    })
+    .then(res => res.json())
+}
 
 
   const createReview = reviewObj => {
@@ -34,7 +44,8 @@ export const ReviewProvider = (props) => {
       value={{
         reviews,
         getReviews,
-        createReview
+        createReview,
+        getReviewsByGameId
       }}
     >
       {props.children}

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router'
 import { GameContext } from './GameProvider'
+import { Review } from '../review/Review'
 import "./Game.css"
 
 
@@ -36,6 +37,7 @@ export const GameDetail = () => {
             <button className="btn" onClick={() => history.push(`/games/${gameId}/review`)}>Review Game</button>
             <br></br>
             <h4>Current reviews of this game</h4>
+            <Review />
             <button className="btn" onClick={() => history.push("/games")}>Go Back</button>
         </>
     )
