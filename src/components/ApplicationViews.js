@@ -7,6 +7,7 @@ import { GameForm } from "./game/GameForm"
 import { CategoryProvider } from "./category/CategoryProvider"
 import { ReviewProvider } from "./review/ReviewProvider"
 import { ReviewForm } from "./review/ReviewForm"
+import { RatingProvider } from "./rating/RatingProvider"
 
 export const ApplicationViews = () => {
     return <>
@@ -17,21 +18,27 @@ export const ApplicationViews = () => {
             <GameProvider>
                 <CategoryProvider>
                     <ReviewProvider>
-                        <Route exact path="/games">
-                            <GameList />
-                        </Route>
+                        <RatingProvider>
+                            <Route exact path="/games">
+                                <GameList />
+                            </Route>
 
-                        <Route exact path="/games/detail/:gameId(\d+)">
-                            <GameDetail />
-                        </Route>
+                            <Route exact path="/games/detail/:gameId(\d+)">
+                                <GameDetail />
+                            </Route>
 
-                        <Route exact path="/games/new">
-                            <GameForm />
-                        </Route>
+                            <Route exact path="/games/new">
+                                <GameForm />
+                            </Route>
 
-                        <Route exact path="/games/:gameId(\d+)/review">
-                            <ReviewForm />
-                        </Route>
+                            <Route exact path="/games/:gameId(\d+)/review">
+                                <ReviewForm />
+                            </Route>
+
+                            <Route exact path="/games/:gameId(\d+)/edit">
+                                <GameForm />
+                            </Route>
+                        </RatingProvider>
                     </ReviewProvider>
                 </CategoryProvider>
             </GameProvider>

@@ -8,6 +8,7 @@ import "./Game.css"
 export const GameList = (props) => {
     const { games, getGames } = useContext(GameContext)
     const history = useHistory()
+    const currentUser = localStorage.getItem("lu_token") // can we even do this still?
 
     useEffect(() => {
         getGames()

@@ -3,6 +3,7 @@ import { useHistory, useParams } from 'react-router'
 import { GameContext } from './GameProvider'
 import { Review } from '../review/Review'
 import "./Game.css"
+import { Rating } from '../rating/Rating'
 
 
 export const GameDetail = () => {
@@ -20,13 +21,13 @@ export const GameDetail = () => {
     return (
         <>
             <h2>{game.title}'s Overview</h2>
-            <h4>Designed by: {game.designer}</h4>
+            <h3>Designed by: {game.designer}</h3>
             <div>Description:</div>
             <div>{game.description}</div>
             <br></br>
             <div>Year realeased: {game.year_released}</div>
             <div>Number of players: {game.number_of_players}</div>
-            <div>Estimated time of play: {game.game_time} minutes</div>
+            <div>Estimated time of play: {game.game_time} hours</div>
             <div>Age Recommendation: {game.age_rec} years or older</div>
             <br></br>
             <div>Categories: {
@@ -34,11 +35,16 @@ export const GameDetail = () => {
                         <div>{ c.label }</div>
                     )}
             </div>
-            <button className="btn" onClick={() => history.push(`/games/${gameId}/review`)}>Review Game</button>
+            <div>Average Rating: {game.average_rating}</div>
             <br></br>
-            <h4>Current reviews of this game</h4>
+            <button className="btn btn-2" onClick={() => history.push(`/games/${gameId}/review`)}>Review Game</button>
+            <h3>Current reviews of this game</h3>
             <Review />
-            <button className="btn" onClick={() => history.push("/games")}>Go Back</button>
+            <br></br>
+            <Rating />
+            <br></br>
+            <button className="btn btn-1" onClick={() => history.push("/games")}>Go Back</button>
+            <button className="btn btn-3" onClick={() => history.push(`/games/${gameId}/edit`)}>Edit</button>
         </>
     )
 }

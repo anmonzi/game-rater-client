@@ -1,15 +1,16 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { GameContext } from './GameProvider'
 import { CategoryContext } from '../category/CategoryProvider'
-import { useHistory } from 'react-router'
+import { useHistory, useParams } from 'react-router'
 import "./Game.css"
 
 
 export const GameForm = () => {
-    const { createGame } = useContext(GameContext)
+    const { createGame, editGame, getGameById } = useContext(GameContext)
     const { categories, getCategories } = useContext(CategoryContext)
     const history = useHistory()
     const currentUser = localStorage.getItem("lu_token") // can we even do this still?
+    const { gameId } = useParams()
 
     /*
         Since the input fields are bound to the values of
@@ -31,6 +32,24 @@ export const GameForm = () => {
    useEffect(() => {
         getCategories()
    }, [])
+
+   useEffect(() => {
+      if (gameId) {
+        getGameById(gameId).then(game => {
+          setCurrentGame({
+            title: game.title,
+            description: game.description,
+            designer: game.designer,
+            year_released: game.year_released,
+            number_of_players: game.number_of_players,
+            game_time: game.game_time,
+            age_rec: game.age_rec,
+            categories: game.categories[0].id,
+            player: game.player
+          })
+        })
+      }
+   }, [gameId])
 
    const handleUserInput = (event) => {
        const newGameState = {...currentGame}
@@ -58,9 +77,34 @@ export const GameForm = () => {
    }
 
 
+   const handleEditGame = (event) => {
+       event.preventDefault()
+
+       const game = {
+           id: parseInt(gameId),
+           title: currentGame.title,
+           description: currentGame.description,
+           designer: currentGame.designer,
+           year_released: currentGame.year_released,
+           number_of_players: parseInt(currentGame.number_of_players),
+           game_time: parseInt(currentGame.game_time),
+           age_rec: parseInt(currentGame.age_rec),
+           categories: [currentGame.categories],
+           player: currentUser
+       }
+       // Send POST request to your API
+       editGame(game)
+        .then(() => history.push(`/games/detail/${gameId}`))
+   }
+
+
    return (
      <form className="gameForm">
-       <h2 className="gameForm__title">Register New Game</h2>
+       {
+         gameId
+         ? <h2 className="gameForm__title">Edit Game</h2>
+         : <h2 className="gameForm__title">Register New Game</h2>
+       }
        <fieldset>
          <div className="form-group">
            <label htmlFor="title">Title: </label>
@@ -179,13 +223,24 @@ export const GameForm = () => {
            </select>
          </div>
        </fieldset>
-       <button
-         type="submit"
-         onClick={handleSaveGame}
-         className="btn btn-primary"
-       >
-         Create
-       </button>
+       {
+         gameId
+         ? <button
+            type="submit"
+            onClick={handleEditGame}
+            className="btn btn-primary btn-2"
+          >
+            Save Edit
+          </button>
+         : <button
+            type="submit"
+            onClick={handleSaveGame}
+            className="btn btn-primary btn-2"
+          >
+            Create
+          </button>
+       }
+       <button className="btn btn-4" onClick={() => history.push(`/games/detail/${gameId}`)}>Cancel</button>
      </form>
    );
 }
